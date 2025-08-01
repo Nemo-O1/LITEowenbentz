@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owen Bentz - Cybersecurity Student</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Owen Bentz is a highly motivated cybersecurity student seeking real-world experience. Explore his resume, projects, and interests in IT and network security.">
+    <meta name="keywords" content="Owen Bentz, cybersecurity, student, resume, IT, network security, computer science, ethical hacking, certifications, C++, Visual Basic, Python, Linux, Windows, macOS, Three.js, web development, Cloudflare Pages">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="x-icon">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css?v=1.1">
+    
+    <style>
+        /* CSS variables for consistent theming */
+        :root {
+            --primary-color: #FF5722;
+            --secondary-color: #FF8A65;
+            --background-dark: #1a1a1a;
+            --background-content: rgba(26, 26, 26, 0.9);
+            --text-color: #eee;
+            --light-text-color: #ddd;
+            --hover-orange: #E64A19;
+            --hobby-bg: #444;
+            --base-font-size: 16px; /* Define a consistent base font size */
+        }
+
+        /* Basic resets and body styling */
+        * { box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-color);
+            overflow: hidden; /* Prevent body scrolling */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: var(--base-font-size); /* Apply base font size to body */
+        }
+
+        body {
+            background-image: radial-gradient(circle at center, #2e2e2e 0%, #1a1a1a 100%);
+        }
+        
+        /* Main scene container. The perspective property is crucial for the 3D effect. */
+        .scene {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            perspective: 1500px; /* Increased perspective for better visibility */
+        }
+
+        /* The cube container */
+        .cube-container {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            transform-style: preserve-3d;
+            transform: translateZ(-250px); /* Adjusted initial position */
+            transition: transform 0.5s ease-in-out;
+            cursor: default; /* Changed cursor to default as it's no longer draggable */
+        }
+
+        /* Styling for each face of the cube */
+        .face {
+            position: absolute;
+            width: 100%;
+            height: calc(100vh - 100px); /* Setting a height that is less than the viewport */
+            top: 50px; /* Centering the face vertically */
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            background: rgba(26, 26, 26, 0.9);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            overflow-y: auto; /* Allow scrolling within each face if content is long */
+            user-select: none; /* Prevent text selection */
+            pointer-events: none; /* Crucial fix: disable pointer events on all faces by default */
+        }
+        
+        /* Only the active face can receive pointer events (like scrolling) */
+        .face.active-face {
+            pointer-events: auto;
+        }
+
+        .face-content {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto; /* Center the content horizontally */
+            display: block; /* Ensure the content flows as a block */
+            text-align: center; /* Center all content within the face content container */
+        }
+        
+        /* Positions for each face of the cube using CSS transforms */
+        .front { transform: translateZ(500px); }
+        .right { transform: rotateY(90deg) translateZ(500px); }
+        .back { transform: rotateY(180deg) translateZ(500px); }
+        .left { transform: rotateY(-90deg) translateZ(500px); }
+
+        /* Navigation buttons */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 8px;
+            font-size: 1.5em;
+            transition: background-color 0.3s, color 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-button:hover {
+            background-color: var(--secondary-color);
+            color: var(--background-dark);
+        }
+
+        #prev-button { left: 10px; }
+        #next-button { right: 10px; }
+        
+        /* General section and typography styling */
+        h1, h2, h3, h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        p, li {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            width: 100%;
+            display: block;
+            margin-bottom: 5px;
+            text-align: center; /* Centered all paragraphs and list items */
+        }
+        
+        .face h1 { font-size: 2.5em; }
+        .face h2 { font-size: 1.8em; margin-top: 20px; }
+        .face p { font-size: 1em; }
+        
+        a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: var(--hover-orange);
+            text-decoration: underline;
+        }
+
+        /* Specific styling to override for contact info to align correctly with icons */
+        .contact-info p {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1em; /* Use consistent font size */
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            line-height: 1.2;
+            color: var(--light-text-color);
+            justify-content: center;
+            text-align: left; /* Keep contact info text left-aligned to icon */
+        }
+        .contact-info p i {
+            color: var(--secondary-color);
+        }
+        
+        /* Consistent font sizes for experience and certifications */
+        .experience-item { margin-bottom: 15px; text-align: center; }
+        .experience-item h4 { color: var(--secondary-color); margin-bottom: 0; }
+        .experience-item p { font-size: 1em; margin-bottom: 5px; } /* Consistent font size */
+        .experience-item ul { list-style: disc; padding-left: 20px; margin: 0 auto; text-align: left; width: fit-content; }
+        .experience-item ul li { font-size: 1em; margin-bottom: 2px; } /* Consistent font size */
+        
+        .cert-item { margin-bottom: 15px; text-align: center; }
+        .cert-item h4 { color: var(--secondary-color); margin-bottom: 0; }
+        .cert-item p { font-size: 1em; margin-bottom: 5px; max-width: 80%; margin-left: auto; margin-right: auto; text-align: center; } /* Consistent font size */
+        .cert-item ul { list-style: disc; padding-left: 20px; margin: 0 auto; text-align: left; width: fit-content; }
+        .cert-item ul li { font-size: 1em; margin-bottom: 2px; } /* Consistent font size */
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .logo-container img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        /* Updated styling for skills list to ensure it's centered */
+        .skills-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 auto; /* Center the list container */
+            max-width: 80%;
+            text-align: left;
+        }
+        .skills-list li {
+            margin-bottom: 5px;
+            font-size: 1em; /* Consistent font size */
+            text-align: center; /* Center the text of each list item */
+        }
+
+        /* Custom scrollbar for better aesthetics */
+        .face::-webkit-scrollbar { width: 8px; }
+        .face::-webkit-scrollbar-track { background: transparent; }
+        .face::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+        .face::-webkit-scrollbar-thumb:hover { background: var(--secondary-color); }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <!-- Navigation Buttons -->
+        <button id="prev-button" class="nav-button">&lt;</button>
+        <button id="next-button" class="nav-button">&gt;</button>
+
+        <div class="cube-container" id="cube-container">
+            <!-- Face 1: Intro and Contact -->
+            <div class="face front">
+                <div class="face-content">
+                    <div class="logo-container">
+                        <img src="01 logo3.png" alt="Owen Bentz Logo">
+                    </div>
+                    <h1>Owen James Engebretson Bentz</h1>
+                    <p style="text-align: center; font-family: 'Roboto Mono', monospace; color: var; font-size: 1em;">Cybersecurity Student</p>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone"></i> 612-701-4335</p>
+                        <p><i class="fas fa-envelope"></i> <a href="mailto:owenbentz01@gmail.com">owenbentz01@gmail.com</a></p>
+                        <p><i class="fas fa-globe"></i> <a href="https://owenbentz.com/">https://owenbentz.com/</a></p>
+                        <p><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/owen-bentz-430584374/">linkedin.com/in/owen-bentz-430584374/</a></p>
+                    </div>
+                    <h2>Objective</h2>
+                    <p style="text-align: center; font-family: 'Roboto Mono', monospace; font-size: 1em; max-width: 80%; margin: 0 auto;">Highly motivated aspiring cybersecurity student seeking to leverage my skills and passion in a real-world, relevant job setting.</p>
+                </div>
+            </div>
+
+            <!-- Face 2: Experience & Skills -->
+            <div class="face right">
+                <div class="face-content">
+                    <h2>Experience</h2>
+                    <div class="experience-item">
+                        <h4>Package Delivery Personnel | Spark DDI Delivery – Casper, WY</h4>
+                        <p>2021-2025</p>
+                        <ul>
+                            <li>Demonstrated reliability and time management in a fast-paced delivery environment.</li>
+                            <li>Ensured timely route completion and customer satisfaction.</li>
+                        </ul>
+                    </div>
+                    <div class="experience-item">
+                        <h4>Cook, Kitchen Staff | Pizza Ranch – Casper, WY</h4>
+                        <p>2019-2020</p>
+                        <ul>
+                            <li>Enhanced teamwork and communication skills in a collaborative kitchen setting.</li>
+                            <li>Upheld high standards of cleanliness and food safety compliance.</li>
+                        </ul>
+                    </div>
+                    <h3>Technical Skills & Proficiencies</h2>
+                    <ul class="skills-list">
+                        <li>Operating Systems: Extensive experience managing and securing Linux, macOS, and Windows, including user security policy configuration.</li>
+                        <li>Virtualization: Proficient in VMware and VirtualBox for VM management and testing.</li>
+                        <li>Security Tools: Hands-on expertise with Wireshark, Ettercap, Burp Suite, Nmap, and Metasploit for network analysis, penetration testing, and vulnerability assessment.</li>
+                        <li>Networking: Strong knowledge of routing protocols (OSPF, EIGRP, RIPv2), VLANs, NAT, DHCP, and ACLs; skilled in configuring and troubleshooting routers and switches.</li>
+                        <li>Programming & Scripting: Basic proficiency in C++ and Python; experienced with Notepad++, Visual Studio, and Visual Basic.</li>
+                        <li>Web Technologies: Familiar with HTML and CSS fundamentals.</li>
+                        <li>Productivity Suites: Proficient in Microsoft Office Suite (Excel, Word, Access).</li>
+                        <li>Multimedia: Advanced skills in Photoshop; basic proficiency in 3D rendering and video editing.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Face 3: About Me -->
+            <div class="face back">
+                <div class="face-content">
+                    <h2>About Me</h2>
+                    <h4>History</h4>
+                    <ul>
+                        <li>Born in 2003</li>
+                        <li>Raised in Morristown, Minnesota</li>
+                        <li>Moved to Faribault, Minnesota in 2015</li>
+                        <li>Moved to Casper, Wyoming in 2017</li>
+                    </ul>
+                    <p>I am currently a student at Casper College, pursuing an associate's degree in Computer Security.</p>
+                    <p>My attraction to this field stems not only from my experience as the go-to IT support for family and friends, but also from just enjoying troubleshooting. Getting side-tracked with something technical, refusing to let it beat me, and then digging in to try to solve it. I genuinely enjoy helping others resolve their technical issues and find the troubleshooting process to be rewarding.</p>
+                    <p>I'm a highly motivated aspiring cybersecurity enthusiast with a lifelong passion for technology. From building my first gaming rig at 14, to mastering network configurations, my passion for the digital world is unwavering.</p>
+                    <h4>My strengths include:</h4>
+                    <ul>
+                        <li>Possessing a solid understanding of operating systems, network security, and proactive threat detection.</li>
+                        <li>Background in creative software and analytical troubleshooting providing a unique and valuable perspective to the cybersecurity landscape.</li>
+                        <li>Eager to contribute a dynamic approach to protecting digital assets and infrastructure.</li>
+                        <li>Seeking to leverage my proven work ethic and IT passion into a dedicated IT role.</li>
+                    </ul>
+                    <p>While the majority of my knowledge is self-taught, driven by curiosity and desire to learn, my family has been a constant source of encouragement, wholeheartedly supporting my interests. I also owe significant credit to both my Kelly Walsh CCNA instructor, Duane Reimer, and my Casper College CCNA instructor, Jeffrey Brewster, for their invaluable contributions. I am currently preparing to take the CCNA exam upon completion of my CCNA prep course at Casper College.</p>
+                    <h4>AI</h4>
+                    <p>In my opinion, AI is a powerful tool with vast potential for automating tasks and enhancing various processes. I believe it is crucial to learn how to effectively utilize these tools while maintaining an awareness of their distinction from human-generated content. (In fact, this website was built using contributions from Gemini 2.0). Effective cybersecurity execution starts by making sure your friends and family are protected. Unlike other fields, AI is accelerating cybersecurity. With the advancements of technology, EVERYONE should have at least a basic understanding of cybersecurity.</p>
+                </div>
+            </div>
+
+            <!-- Face 4: Certifications -->
+            <div class="face left">
+                <div class="face-content">
+                    <h2>Certifications</h2>
+                    <div class="cert-item">
+                        <h4>TestOut Security Pro</h4>
+                        <p>Issued: 12/11/2024</p>
+                        <ul>
+                            <li>**Skills:** Identity Management and Authentication (Manage Identity, Harden Authentication), Physical and Network Security (Harden Physical Access, Harden Network Devices), Host and Application Defense (Harden Systems, Implement Application/Virtualization Defenses), Data Security (Protect Data, Implement Encryption), Audit and Security Assessment (Logging, Auditing, Assessment Techniques).</li>
+                        </ul>
+                    </div>
+                    <div class="cert-item">
+                        <h4>Cisco CCNA Routing and Switching: Scaling Networks</h4>
+                        <p>Completed: 04/06/2020</p>
+                        <ul>
+                            <li>**Capabilities:** Configure and troubleshoot STP, EtherChannel, HSRP, inter-VLAN routing, and OSPF/EIGRP for IPv4/IPv6.</li>
+                        </ul>
+                    </div>
+                    <div class="cert-item">
+                        <h4>Cisco CCNA Routing and Switching: Routing and Switching Essentials</h4>
+                        <p>Completed: 05/22/2019</p>
+                        <ul>
+                            <li>**Capabilities:** Configure routing, switching, VLANs, NAT, DHCP, ACLs, and troubleshoot network devices.</li>
+                        </ul>
+                    </div>
+                    <div class="cert-item">
+                        <h4>Cisco CCNA Routing and Switching: Introduction to Networks</h4>
+                        <p>Completed: 04/15/2019</p>
+                        <ul>
+                            <li>**Capabilities:** Explain network technologies, design IP schemes, configure initial settings, and ensure basic network connectivity.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cube = document.getElementById('cube-container');
+            const faces = document.querySelectorAll('.face');
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            
+            let currentRotation = 0; // Tracks the total rotation in degrees
+
+            // Helper function to handle modulo for negative numbers
+            const getPositiveModulo = (n, m) => ((n % m) + m) % m;
+
+            const updateActiveFace = () => {
+                // Remove the active-face class from all faces
+                faces.forEach(face => face.classList.remove('active-face'));
+
+                // Calculate the index of the face that is currently "front-facing"
+                // The index is derived from the rotation value, normalized to be between 0 and 3.
+                // Rounding is important to handle potential floating point inaccuracies.
+                const faceIndex = getPositiveModulo(Math.round(currentRotation / -90), 4);
+                
+                // The faces in the HTML are ordered: front (index 0), right (1), back (2), left (3).
+                // This logic directly corresponds to that order.
+                const activeFaceElement = faces[faceIndex];
+
+                if (activeFaceElement) {
+                    activeFaceElement.classList.add('active-face');
+                }
+            };
+            
+            const updateCubeRotation = () => {
+                cube.style.transform = `translateZ(-250px) rotateY(${currentRotation}deg)`;
+                updateActiveFace();
+            };
+
+            // Button navigation
+            prevButton.addEventListener('click', () => {
+                currentRotation += 90;
+                updateCubeRotation();
+            });
+
+            nextButton.addEventListener('click', () => {
+                currentRotation -= 90;
+                updateCubeRotation();
+            });
+            
+            // Initial view
+            updateActiveFace();
+            updateCubeRotation();
+        });
+    </script>
+</body>
+</html>
