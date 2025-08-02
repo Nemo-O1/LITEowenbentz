@@ -31,7 +31,7 @@
             --light-text-color: #ddd;
             --hover-orange: #E64A19;
             --hobby-bg: #444;
-            --base-font-size: 16px; /* Define a consistent base font size */
+            --base-font-size: 16px; /* Define a consistent base font size for desktop */
         }
 
         /* Basic resets and body styling */
@@ -232,6 +232,45 @@
         .face::-webkit-scrollbar-track { background: transparent; }
         .face::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
         .face::-webkit-scrollbar-thumb:hover { background: var(--secondary-color); }
+        
+        /* --- Mobile-specific styles (max-width: 768px) --- */
+        @media (max-width: 768px) {
+            :root {
+                --base-font-size: 14px; /* Smaller base font size for mobile */
+            }
+
+            .face {
+                padding: 20px 10px; /* Add more vertical padding, less horizontal padding */
+                height: calc(100vh - 80px); /* Adjust height for mobile */
+                top: 40px;
+                width: calc(100vw - 120px); /* Make the face narrower to leave space for buttons */
+            }
+
+            .face h1 { font-size: 2em; }
+            .face h2 { font-size: 1.5em; margin-top: 15px; }
+            .face h4 { font-size: 1.1em; }
+
+            .contact-info p {
+                font-size: 0.9em;
+            }
+            
+            .face p, .face li {
+                font-size: 0.9em;
+            }
+
+            .nav-button {
+                padding: 6px 12px; /* Make buttons slightly smaller */
+                font-size: 1em;
+                top: 50%;
+            }
+
+            #prev-button { left: 10px; }
+            #next-button { right: 10px; }
+
+            .logo-container img {
+                max-width: 120px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -248,7 +287,7 @@
                         <img src="01 logo3.png" alt="Owen Bentz Logo">
                     </div>
                     <h1>Owen James Engebretson Bentz</h1>
-                    <p style="text-align: center; font-family: 'Roboto Mono', monospace; color: var; font-size: 1em;">Cybersecurity Student</p>
+                    <p style="text-align: center; font-family: 'Roboto Mono', monospace; color: var(--secondary-color); font-size: 1em;">Cybersecurity Student</p>
                     <div class="contact-info">
                         <p><i class="fas fa-phone"></i> 612-701-4335</p>
                         <p><i class="fas fa-envelope"></i> <a href="mailto:owenbentz01@gmail.com">owenbentz01@gmail.com</a></p>
@@ -280,16 +319,16 @@
                             <li>Upheld high standards of cleanliness and food safety compliance.</li>
                         </ul>
                     </div>
-                    <h3>Technical Skills & Proficiencies</h2>
+                    <h2>Technical Skills & Proficiencies</h2>
                     <ul class="skills-list">
-                        <li>Operating Systems: Extensive experience managing and securing Linux, macOS, and Windows, including user security policy configuration.</li>
-                        <li>Virtualization: Proficient in VMware and VirtualBox for VM management and testing.</li>
-                        <li>Security Tools: Hands-on expertise with Wireshark, Ettercap, Burp Suite, Nmap, and Metasploit for network analysis, penetration testing, and vulnerability assessment.</li>
-                        <li>Networking: Strong knowledge of routing protocols (OSPF, EIGRP, RIPv2), VLANs, NAT, DHCP, and ACLs; skilled in configuring and troubleshooting routers and switches.</li>
-                        <li>Programming & Scripting: Basic proficiency in C++ and Python; experienced with Notepad++, Visual Studio, and Visual Basic.</li>
-                        <li>Web Technologies: Familiar with HTML and CSS fundamentals.</li>
-                        <li>Productivity Suites: Proficient in Microsoft Office Suite (Excel, Word, Access).</li>
-                        <li>Multimedia: Advanced skills in Photoshop; basic proficiency in 3D rendering and video editing.</li>
+                        <li>**Operating Systems:** Extensive experience managing and securing Linux, macOS, and Windows, including user security policy configuration.</li>
+                        <li>**Virtualization:** Proficient in VMware and VirtualBox for VM management and testing.</li>
+                        <li>**Security Tools:** Hands-on expertise with Wireshark, Ettercap, Burp Suite, Nmap, and Metasploit for network analysis, penetration testing, and vulnerability assessment.</li>
+                        <li>**Networking:** Strong knowledge of routing protocols (OSPF, EIGRP, RIPv2), VLANs, NAT, DHCP, and ACLs; skilled in configuring and troubleshooting routers and switches.</li>
+                        <li>**Programming & Scripting:** Basic proficiency in C++ and Python; experienced with Notepad++, Visual Studio, and Visual Basic.</li>
+                        <li>**Web Technologies:** Familiar with HTML and CSS fundamentals.</li>
+                        <li>**Productivity Suites:** Proficient in Microsoft Office Suite (Excel, Word, Access).</li>
+                        <li>**Multimedia:** Advanced skills in Photoshop; basic proficiency in 3D rendering and video editing.</li>
                     </ul>
                 </div>
             </div>
