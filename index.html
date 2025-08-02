@@ -93,6 +93,7 @@
             background: rgba(26, 26, 26, 0.9);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             overflow-y: auto; /* Allow scrolling within each face if content is long */
+            touch-action: pan-y; /* Explicitly allow vertical scrolling on touch devices */
             user-select: none; /* Prevent text selection */
             pointer-events: none; /* Crucial fix: disable pointer events on all faces by default */
         }
@@ -106,6 +107,7 @@
             width: 100%;
             max-width: 900px;
             margin: 0 auto; /* Center the content horizontally */
+            padding-bottom: 20px; /* Add some padding to the bottom to ensure scrollability */
             display: block; /* Ensure the content flows as a block */
             text-align: center; /* Center all content within the face content container */
         }
