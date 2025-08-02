@@ -31,7 +31,7 @@
             --light-text-color: #ddd;
             --hover-orange: #E64A19;
             --hobby-bg: #444;
-            --base-font-size: 16px; /* Define a consistent base font size for desktop */
+            --base-font-size: 16px;
         }
 
         /* Basic resets and body styling */
@@ -44,11 +44,11 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--background-dark);
             color: var(--text-color);
-            overflow: hidden; /* Prevent body scrolling */
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: var(--base-font-size); /* Apply base font size to body */
+            font-size: var(--base-font-size);
         }
 
         body {
@@ -64,7 +64,7 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            perspective: 1500px; /* Increased perspective for better visibility */
+            perspective: 1500px;
         }
 
         /* The cube container */
@@ -73,48 +73,48 @@
             height: 100vh;
             position: absolute;
             transform-style: preserve-3d;
-            transform: translateZ(-250px); /* Adjusted initial position */
+            transform: translateZ(-250px);
             transition: transform 0.5s ease-in-out;
-            cursor: default; /* Changed cursor to default as it's no longer draggable */
-            transform-origin: center center; /* Ensure rotation from the center */
+            cursor: default;
+            transform-origin: center center;
         }
 
         /* Styling for each face of the cube */
         .face {
             position: absolute;
             width: 100%;
-            height: 90vh; /* Responsive height */
-            top: 5vh; /* Center the face vertically */
+            height: 90vh;
+            top: 5vh;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             background: rgba(26, 26, 26, 0.9);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            overflow: hidden; /* Prevent the face itself from having a scrollbar */
-            user-select: none; /* Prevent text selection */
-            pointer-events: none; /* Crucial: disable pointer events on all faces by default */
-            /* Add a transition for visibility and transform changes */
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            overflow: hidden;
+            user-select: none;
             opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
+            transform-origin: center center;
         }
 
         /* The active face is the only one visible and interactive */
         .face.active-face {
             opacity: 1;
-            pointer-events: auto; /* Enable pointer events on the active face */
+            pointer-events: auto;
         }
         
         .face-content {
             width: 100%;
-            height: 100%; /* Ensure the content wrapper fills the face */
+            height: 100%;
             max-width: 900px;
-            margin: 0 auto; /* Center the content horizontally */
-            padding: 20px; /* Padding is now on the content wrapper */
-            display: block; /* Ensure the content flows as a block */
-            text-align: center; /* Center all content within the face content container */
-            overflow-y: auto; /* Enable scrolling on the content itself */
-            -webkit-overflow-scrolling: touch; /* Add for smoother iOS scrolling */
+            margin: 0 auto;
+            padding: 20px;
+            display: block;
+            text-align: center;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         /* Positions for each face of the cube using CSS transforms */
@@ -164,7 +164,7 @@
             width: 100%;
             display: block;
             margin-bottom: 5px;
-            text-align: center; /* Centered all paragraphs and list items */
+            text-align: center;
         }
         
         .face h1 { font-size: 2.5em; }
@@ -185,14 +185,14 @@
         /* Specific styling to override for contact info to align correctly with icons */
         .contact-info p {
             font-family: 'Roboto Mono', monospace;
-            font-size: 1em; /* Use consistent font size */
+            font-size: 1em;
             display: flex;
             align-items: center;
             gap: 5px;
             line-height: 1.2;
             color: var(--light-text-color);
             justify-content: center;
-            text-align: left; /* Keep contact info text left-aligned to icon */
+            text-align: left;
         }
         .contact-info p i {
             color: var(--secondary-color);
@@ -201,15 +201,15 @@
         /* Consistent font sizes for experience and certifications */
         .experience-item { margin-bottom: 15px; text-align: center; }
         .experience-item h4 { color: var(--secondary-color); margin-bottom: 0; }
-        .experience-item p { font-size: 1em; margin-bottom: 5px; } /* Consistent font size */
+        .experience-item p { font-size: 1em; margin-bottom: 5px; }
         .experience-item ul { list-style: disc; padding-left: 20px; margin: 0 auto; text-align: left; width: fit-content; }
-        .experience-item ul li { font-size: 1em; margin-bottom: 2px; } /* Consistent font size */
+        .experience-item ul li { font-size: 1em; margin-bottom: 2px; }
         
         .cert-item { margin-bottom: 15px; text-align: center; }
         .cert-item h4 { color: var(--secondary-color); margin-bottom: 0; }
-        .cert-item p { font-size: 1em; margin-bottom: 5px; max-width: 80%; margin-left: auto; margin-right: auto; text-align: center; } /* Consistent font size */
+        .cert-item p { font-size: 1em; margin-bottom: 5px; max-width: 80%; margin-left: auto; margin-right: auto; text-align: center; }
         .cert-item ul { list-style: disc; padding-left: 20px; margin: 0 auto; text-align: left; width: fit-content; }
-        .cert-item ul li { font-size: 1em; margin-bottom: 2px; } /* Consistent font size */
+        .cert-item ul li { font-size: 1em; margin-bottom: 2px; }
         
         .logo-container {
             display: flex;
@@ -225,14 +225,14 @@
         .skills-list {
             list-style: none;
             padding: 0;
-            margin: 0 auto; /* Center the list container */
+            margin: 0 auto;
             max-width: 80%;
             text-align: left;
         }
         .skills-list li {
             margin-bottom: 5px;
-            font-size: 1em; /* Consistent font size */
-            text-align: center; /* Center the text of each list item */
+            font-size: 1em;
+            text-align: center;
         }
 
         /* Custom scrollbar for better aesthetics */
@@ -244,36 +244,31 @@
         /* --- Mobile-specific styles (max-width: 768px) --- */
         @media (max-width: 768px) {
             :root {
-                --base-font-size: 14px; /* Smaller base font size for mobile */
+                --base-font-size: 14px;
             }
             
-            /* The cube container is centered via flexbox on the body */
             .cube-container {
-                width: 80vw;
-                height: 80vh; /* Set a fixed height for the container */
-                transform: translateZ(-40vw);
-                transform-origin: center center;
+                width: 90vw; /* Use vw for a more proportional container */
+                height: 90vh;
+                transform: none; /* No 3D transform on the container */
+                transform-style: flat; /* Ensure faces are not in a 3D space */
+                position: relative; /* Change to relative to stack faces */
             }
 
-            /* Set the face dimensions to fit the centered container explicitly */
             .face {
                 width: 100%;
                 height: 100%;
                 top: 0;
                 left: 0;
+                transform: none; /* Reset individual face transforms */
+                position: absolute; /* Stack faces absolutely */
+                border-radius: 10px;
             }
 
             .face-content {
-                height: 100%; /* The content wrapper now fills the explicit height of the face */
-                padding: 20px 10px; /* Adjust padding for mobile */
-                overflow-y: auto; /* Ensure scrolling is enabled */
+                height: 100%;
+                padding: 20px 10px;
             }
-
-            /* Adjust 3D transforms for mobile to use vw units for proportional scaling */
-            .front { transform: translateZ(40vw); }
-            .right { transform: rotateY(90deg) translateZ(40vw); }
-            .back { transform: rotateY(180deg) translateZ(40vw); }
-            .left { transform: rotateY(-90deg) translateZ(40vw); }
             
             .face h1 { font-size: 2em; }
             .face h2 { font-size: 1.5em; margin-top: 15px; }
@@ -288,7 +283,7 @@
             }
 
             .nav-button {
-                padding: 6px 12px; /* Make buttons slightly smaller */
+                padding: 6px 12px;
                 font-size: 1em;
                 top: 50%;
             }
@@ -435,19 +430,12 @@
             
             let currentPage = 0; // Tracks the current active face, from 0 to 3.
 
-            // The list of transforms corresponding to each page
-            const transforms = [
-                'translateZ(-250px) rotateY(0deg)',     // Face 1: Intro (front)
-                'translateZ(-250px) rotateY(-90deg)',   // Face 2: Experience (right)
-                'translateZ(-250px) rotateY(-180deg)',  // Face 3: About Me (back)
-                'translateZ(-250px) rotateY(-270deg)'   // Face 4: Certifications (left)
-            ];
-
-            const mobileTransforms = [
-                'translateZ(-40vw) rotateY(0deg)',
-                'translateZ(-40vw) rotateY(-90deg)',
-                'translateZ(-40vw) rotateY(-180deg)',
-                'translateZ(-40vw) rotateY(-270deg)'
+            // The list of transforms corresponding to each page for desktop view
+            const desktopTransforms = [
+                'rotateY(0deg)',     // Face 1: Intro (front)
+                'rotateY(-90deg)',   // Face 2: Experience (right)
+                'rotateY(-180deg)',  // Face 3: About Me (back)
+                'rotateY(-270deg)'   // Face 4: Certifications (left)
             ];
 
             const updateActiveFace = () => {
@@ -460,11 +448,18 @@
             };
 
             const updateCubeRotation = () => {
-                // Determine the correct transform based on screen size
                 const isMobile = window.innerWidth <= 768;
-                const activeTransforms = isMobile ? mobileTransforms : transforms;
                 
-                cube.style.transform = activeTransforms[currentPage];
+                if (isMobile) {
+                    // On mobile, stack faces and handle visibility via opacity and active class
+                    cube.style.transform = 'none';
+                    faces.forEach(face => {
+                        face.style.transform = 'none';
+                    });
+                } else {
+                    // On desktop, use the 3D rotation
+                    cube.style.transform = `translateZ(-250px) ${desktopTransforms[currentPage]}`;
+                }
                 updateActiveFace();
             };
 
