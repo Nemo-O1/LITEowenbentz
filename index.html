@@ -252,7 +252,6 @@
                 height: 90vh;
                 transform: none; /* No 3D transform on the container */
                 transform-style: flat; /* Ensure faces are not in a 3D space */
-                position: relative; /* Change to relative to stack faces */
             }
 
             .face {
@@ -378,7 +377,7 @@
                         <li>Eager to contribute a dynamic approach to protecting digital assets and infrastructure.</li>
                         <li>Seeking to leverage my proven work ethic and IT passion into a dedicated IT role.</li>
                     </ul>
-                    <p>While the majority of my knowledge is self-taught, driven by curiosity and desire to learn, my family has been a constant source of encouragement, wholeheartedly supporting my interests. I also owe significant credit to both my Kelly Walsh CCNA instructor, Duane Reimer, and my Casper College CCNA instructor, Jeffrey Brewster, for their invaluable contributions. I am currently preparing to take the CCNA exam upon completion of my CCNA prep course at Casper College.</p>
+                    <p>While the majority of my knowledge is self-taught, driven by curiosity and desire to learn, my family has a been a constant source of encouragement, wholeheartedly supporting my interests. I also owe significant credit to both my Kelly Walsh CCNA instructor, Duane Reimer, and my Casper College CCNA instructor, Jeffrey Brewster, for their invaluable contributions. I am currently preparing to take the CCNA exam upon completion of my CCNA prep course at Casper College.</p>
                     <h4>AI</h4>
                     <p>In my opinion, AI is a powerful tool with vast potential for automating tasks and enhancing various processes. I believe it is crucial to learn how to effectively utilize these tools while maintaining an awareness of their distinction from human-generated content. (In fact, this website was built using contributions from Gemini 2.0). Effective cybersecurity execution starts by making sure your friends and family are protected. Unlike other fields, AI is accelerating cybersecurity. With the advancements of technology, EVERYONE should have at least a basic understanding of cybersecurity.</p>
                 </div>
@@ -428,17 +427,13 @@
             const prevButton = document.getElementById('prev-button');
             const nextButton = document.getElementById('next-button');
             
-            let currentPage = 0; // Tracks the current active face, from 0 to 3.
-
-            // The list of transforms corresponding to each page for desktop view
-            const desktopTransforms = [
-                'rotateY(0deg)',     // Face 1: Intro (front)
-                'rotateY(-90deg)',   // Face 2: Experience (right)
-                'rotateY(-180deg)',  // Face 3: About Me (back)
-                'rotateY(-270deg)'   // Face 4: Certifications (left)
-            ];
+            let currentRotation = 0; // Tracks the continuous rotation in degrees
 
             const updateActiveFace = () => {
+                // Calculate the current page index from the rotation
+                // The modulo operator ensures the index wraps around correctly
+                const currentPage = ((-currentRotation / 90) % faces.length + faces.length) % faces.length;
+                
                 // Remove active class from all faces first
                 faces.forEach(face => {
                     face.classList.remove('active-face');
@@ -451,32 +446,31 @@
                 const isMobile = window.innerWidth <= 768;
                 
                 if (isMobile) {
-                    // On mobile, stack faces and handle visibility via opacity and active class
+                    // On mobile, use a flat layout by removing 3D transforms
                     cube.style.transform = 'none';
-                    faces.forEach(face => {
-                        face.style.transform = 'none';
-                    });
+                    cube.style.transformStyle = 'flat';
                 } else {
-                    // On desktop, use the 3D rotation
-                    cube.style.transform = `translateZ(-250px) ${desktopTransforms[currentPage]}`;
+                    // On desktop, use 3D rotation
+                    cube.style.transform = `translateZ(-250px) rotateY(${currentRotation}deg)`;
+                    cube.style.transformStyle = 'preserve-3d';
                 }
                 updateActiveFace();
             };
 
             // Button navigation
             prevButton.addEventListener('click', () => {
-                currentPage = (currentPage - 1 + faces.length) % faces.length;
+                currentRotation += 90; // Decrement rotation for "previous"
                 updateCubeRotation();
             });
 
             nextButton.addEventListener('click', () => {
-                currentPage = (currentPage + 1) % faces.length;
+                currentRotation -= 90; // Increment rotation for "next"
                 updateCubeRotation();
             });
             
             // Initial view and update on window resize
             window.addEventListener('resize', updateCubeRotation);
-            updateCubeRotation();
+            updateCubeRotation(); // Initial render
         });
     </script>
 </body>
