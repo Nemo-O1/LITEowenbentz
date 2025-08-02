@@ -26,11 +26,9 @@
             --primary-color: #FF5722;
             --secondary-color: #FF8A65;
             --background-dark: #1a1a1a;
-            --background-content: rgba(26, 26, 26, 0.9);
             --text-color: #eee;
             --light-text-color: #ddd;
             --hover-orange: #E64A19;
-            --hobby-bg: #444;
             --base-font-size: 16px;
         }
 
@@ -55,7 +53,7 @@
             background-image: radial-gradient(circle at center, #2e2e2e 0%, #1a1a1a 100%);
         }
         
-        /* Main scene container. The perspective property is crucial for the 3D effect. */
+        /* Main scene container */
         .scene {
             width: 100vw;
             height: 100vh;
@@ -67,7 +65,7 @@
             perspective: 1500px;
         }
 
-        /* The cube container */
+        /* The cube container that rotates */
         .cube-container {
             width: 100vw;
             height: 100vh;
@@ -182,7 +180,6 @@
             text-decoration: underline;
         }
 
-        /* Specific styling to override for contact info to align correctly with icons */
         .contact-info p {
             font-family: 'Roboto Mono', monospace;
             font-size: 1em;
@@ -198,7 +195,6 @@
             color: var(--secondary-color);
         }
         
-        /* Consistent font sizes for experience and certifications */
         .experience-item { margin-bottom: 15px; text-align: center; }
         .experience-item h4 { color: var(--secondary-color); margin-bottom: 0; }
         .experience-item p { font-size: 1em; margin-bottom: 5px; }
@@ -221,7 +217,6 @@
             height: auto;
         }
 
-        /* Updated styling for skills list to ensure it's centered */
         .skills-list {
             list-style: none;
             padding: 0;
@@ -248,19 +243,17 @@
             }
             
             .cube-container {
-                width: 90vw; /* Use vw for a more proportional container */
-                height: 90vh;
-                transform: none; /* No 3D transform on the container */
-                transform-style: flat; /* Ensure faces are not in a 3D space */
+                transform: none;
+                transform-style: flat;
             }
 
             .face {
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                transform: none; /* Reset individual face transforms */
-                position: absolute; /* Stack faces absolutely */
+                width: 90vw;
+                height: 90vh;
+                top: 5vh;
+                left: 5vw;
+                transform: none;
+                position: absolute;
                 border-radius: 10px;
             }
 
@@ -273,13 +266,9 @@
             .face h2 { font-size: 1.5em; margin-top: 15px; }
             .face h4 { font-size: 1.1em; }
 
-            .contact-info p {
-                font-size: 0.9em;
-            }
+            .contact-info p { font-size: 0.9em; }
             
-            .face p, .face li {
-                font-size: 0.9em;
-            }
+            .face p, .face li { font-size: 0.9em; }
 
             .nav-button {
                 padding: 6px 12px;
@@ -290,9 +279,7 @@
             #prev-button { left: 10px; }
             #next-button { right: 10px; }
 
-            .logo-container img {
-                max-width: 120px;
-            }
+            .logo-container img { max-width: 120px; }
         }
     </style>
 </head>
@@ -377,7 +364,7 @@
                         <li>Eager to contribute a dynamic approach to protecting digital assets and infrastructure.</li>
                         <li>Seeking to leverage my proven work ethic and IT passion into a dedicated IT role.</li>
                     </ul>
-                    <p>While the majority of my knowledge is self-taught, driven by curiosity and desire to learn, my family has a been a constant source of encouragement, wholeheartedly supporting my interests. I also owe significant credit to both my Kelly Walsh CCNA instructor, Duane Reimer, and my Casper College CCNA instructor, Jeffrey Brewster, for their invaluable contributions. I am currently preparing to take the CCNA exam upon completion of my CCNA prep course at Casper College.</p>
+                    <p>While the majority of my knowledge is self-taught, driven by curiosity and desire to learn, my family has been a constant source of encouragement, wholeheartedly supporting my interests. I also owe significant credit to both my Kelly Walsh CCNA instructor, Duane Reimer, and my Casper College CCNA instructor, Jeffrey Brewster, for their invaluable contributions. I am currently preparing to take the CCNA exam upon completion of my CCNA prep course at Casper College.</p>
                     <h4>AI</h4>
                     <p>In my opinion, AI is a powerful tool with vast potential for automating tasks and enhancing various processes. I believe it is crucial to learn how to effectively utilize these tools while maintaining an awareness of their distinction from human-generated content. (In fact, this website was built using contributions from Gemini 2.0). Effective cybersecurity execution starts by making sure your friends and family are protected. Unlike other fields, AI is accelerating cybersecurity. With the advancements of technology, EVERYONE should have at least a basic understanding of cybersecurity.</p>
                 </div>
@@ -429,48 +416,45 @@
             
             let currentRotation = 0; // Tracks the continuous rotation in degrees
 
+            // Updates the active face based on the current rotation
             const updateActiveFace = () => {
-                // Calculate the current page index from the rotation
-                // The modulo operator ensures the index wraps around correctly
                 const currentPage = ((-currentRotation / 90) % faces.length + faces.length) % faces.length;
                 
-                // Remove active class from all faces first
                 faces.forEach(face => {
                     face.classList.remove('active-face');
                 });
-                // Add active class to the current face
                 faces[currentPage].classList.add('active-face');
             };
 
+            // Applies the correct rotation to the cube based on screen size
             const updateCubeRotation = () => {
                 const isMobile = window.innerWidth <= 768;
                 
                 if (isMobile) {
-                    // On mobile, use a flat layout by removing 3D transforms
                     cube.style.transform = 'none';
                     cube.style.transformStyle = 'flat';
                 } else {
-                    // On desktop, use 3D rotation
                     cube.style.transform = `translateZ(-250px) rotateY(${currentRotation}deg)`;
                     cube.style.transformStyle = 'preserve-3d';
                 }
                 updateActiveFace();
             };
 
-            // Button navigation
+            // Event listener for the "previous" button
             prevButton.addEventListener('click', () => {
-                currentRotation += 90; // Decrement rotation for "previous"
+                currentRotation += 90;
                 updateCubeRotation();
             });
 
+            // Event listener for the "next" button
             nextButton.addEventListener('click', () => {
-                currentRotation -= 90; // Increment rotation for "next"
+                currentRotation -= 90;
                 updateCubeRotation();
             });
             
-            // Initial view and update on window resize
+            // Initial render and update on window resize
             window.addEventListener('resize', updateCubeRotation);
-            updateCubeRotation(); // Initial render
+            updateCubeRotation();
         });
     </script>
 </body>
