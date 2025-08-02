@@ -243,15 +243,15 @@
                 --base-font-size: 14px; /* Smaller base font size for mobile */
             }
             
-            /* The parent .scene's flexbox will handle the centering, so we remove the manual `left`/`transform` */
+            /* The cube container is centered via flexbox on the body */
             .cube-container {
                 width: 80vw;
-                height: 90vh; /* Consistent height with the face */
-                transform: translateZ(-40vw); /* Rely on flexbox for centering */
+                height: 80vh; /* Set a fixed height for the container */
+                transform: translateZ(-40vw);
                 transform-origin: center center;
             }
 
-            /* Set the face dimensions to fit the centered container */
+            /* Set the face dimensions to fit the centered container explicitly */
             .face {
                 width: 100%;
                 height: 100%;
@@ -260,7 +260,9 @@
             }
 
             .face-content {
+                height: 100%; /* The content wrapper now fills the explicit height of the face */
                 padding: 20px 10px; /* Adjust padding for mobile */
+                overflow-y: auto; /* Ensure scrolling is enabled */
             }
 
             /* Adjust 3D transforms for mobile to use vw units for proportional scaling */
