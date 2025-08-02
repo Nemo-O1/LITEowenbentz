@@ -83,8 +83,8 @@
         .face {
             position: absolute;
             width: 100%;
-            height: calc(100vh - 100px); /* Setting a height that is less than the viewport */
-            top: 50px; /* Centering the face vertically */
+            height: 90vh; /* Responsive height */
+            top: 5vh; /* Center the face vertically */
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(5px);
@@ -246,7 +246,7 @@
             /* The parent .scene's flexbox will handle the centering, so we remove the manual `left`/`transform` */
             .cube-container {
                 width: 80vw;
-                height: calc(100vh - 80px);
+                height: 90vh; /* Consistent height with the face */
                 transform: translateZ(-40vw); /* Rely on flexbox for centering */
                 transform-origin: center center;
             }
