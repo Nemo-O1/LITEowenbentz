@@ -94,11 +94,15 @@
             overflow: hidden; /* Prevent the face itself from having a scrollbar */
             user-select: none; /* Prevent text selection */
             pointer-events: none; /* Crucial: disable pointer events on all faces by default */
+            /* Add a transition for visibility and transform changes */
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            opacity: 0;
         }
-        
-        /* Only the active face can receive pointer events (like scrolling) */
+
+        /* The active face is the only one visible and interactive */
         .face.active-face {
-            pointer-events: auto; /* Enable pointer events on the active face container */
+            opacity: 1;
+            pointer-events: auto; /* Enable pointer events on the active face */
         }
         
         .face-content {
@@ -426,53 +430,52 @@
         document.addEventListener('DOMContentLoaded', () => {
             const cube = document.getElementById('cube-container');
             const faces = document.querySelectorAll('.face');
-            const faceContents = document.querySelectorAll('.face-content');
             const prevButton = document.getElementById('prev-button');
             const nextButton = document.getElementById('next-button');
             
-            let currentRotation = 0; // Tracks the total rotation in degrees
+            let currentPage = 0; // Tracks the current active face, from 0 to 3.
 
-            // Helper function to handle modulo for negative numbers
-            const getPositiveModulo = (n, m) => ((n % m) + m) % m;
+            // The list of transforms corresponding to each page
+            const transforms = [
+                'translateZ(-250px) rotateY(0deg)',     // Face 1: Intro (front)
+                'translateZ(-250px) rotateY(-90deg)',   // Face 2: Experience (right)
+                'translateZ(-250px) rotateY(-180deg)',  // Face 3: About Me (back)
+                'translateZ(-250px) rotateY(-270deg)'   // Face 4: Certifications (left)
+            ];
+
+            const mobileTransforms = [
+                'translateZ(-40vw) rotateY(0deg)',
+                'translateZ(-40vw) rotateY(-90deg)',
+                'translateZ(-40vw) rotateY(-180deg)',
+                'translateZ(-40vw) rotateY(-270deg)'
+            ];
 
             const updateActiveFace = () => {
-                // Remove the active-face class from all faces
-                faces.forEach(face => face.classList.remove('active-face'));
-                faceContents.forEach(content => content.classList.remove('active-face-content'));
-
-                // Calculate the index of the face that is currently "front-facing"
-                const faceIndex = getPositiveModulo(Math.round(currentRotation / -90), 4);
-                
-                // The faces in the HTML are ordered: front (index 0), right (1), back (2), left (3).
-                const activeFaceElement = faces[faceIndex];
-                const activeFaceContent = faceContents[faceIndex];
-
-                if (activeFaceElement) {
-                    activeFaceElement.classList.add('active-face');
-                }
-                if (activeFaceContent) {
-                    activeFaceContent.classList.add('active-face-content');
-                }
+                // Remove active class from all faces first
+                faces.forEach(face => {
+                    face.classList.remove('active-face');
+                });
+                // Add active class to the current face
+                faces[currentPage].classList.add('active-face');
             };
-            
+
             const updateCubeRotation = () => {
-                // Determine the correct translateZ value based on screen size for responsiveness
-                const translateZValue = window.innerWidth <= 768 ? '-40vw' : '-250px';
+                // Determine the correct transform based on screen size
+                const isMobile = window.innerWidth <= 768;
+                const activeTransforms = isMobile ? mobileTransforms : transforms;
                 
-                // Set the transform property with the dynamic translateZ value
-                cube.style.transform = `translateZ(${translateZValue}) rotateY(${currentRotation}deg)`;
-                
+                cube.style.transform = activeTransforms[currentPage];
                 updateActiveFace();
             };
 
             // Button navigation
             prevButton.addEventListener('click', () => {
-                currentRotation += 90;
+                currentPage = (currentPage - 1 + faces.length) % faces.length;
                 updateCubeRotation();
             });
 
             nextButton.addEventListener('click', () => {
-                currentRotation -= 90;
+                currentPage = (currentPage + 1) % faces.length;
                 updateCubeRotation();
             });
             
