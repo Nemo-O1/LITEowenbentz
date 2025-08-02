@@ -76,6 +76,7 @@
             transform: translateZ(-250px); /* Adjusted initial position */
             transition: transform 0.5s ease-in-out;
             cursor: default; /* Changed cursor to default as it's no longer draggable */
+            transform-origin: center center; /* Ensure rotation from the center */
         }
 
         /* Styling for each face of the cube */
@@ -238,14 +239,30 @@
             :root {
                 --base-font-size: 14px; /* Smaller base font size for mobile */
             }
-
-            .face {
-                padding: 20px 10px; /* Add more vertical padding, less horizontal padding */
-                height: calc(100vh - 80px); /* Adjust height for mobile */
-                top: 40px;
-                width: calc(100vw - 120px); /* Make the face narrower to leave space for buttons */
+            
+            /* The parent .scene's flexbox will handle the centering, so we remove the manual `left`/`transform` */
+            .cube-container {
+                width: 80vw;
+                height: calc(100vh - 80px);
+                transform: translateZ(-40vw); /* Rely on flexbox for centering */
+                transform-origin: center center;
             }
 
+            /* Set the face dimensions to fit the centered container */
+            .face {
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                padding: 20px 10px;
+            }
+
+            /* Adjust 3D transforms for mobile to use vw units for proportional scaling */
+            .front { transform: translateZ(40vw); }
+            .right { transform: rotateY(90deg) translateZ(40vw); }
+            .back { transform: rotateY(180deg) translateZ(40vw); }
+            .left { transform: rotateY(-90deg) translateZ(40vw); }
+            
             .face h1 { font-size: 2em; }
             .face h2 { font-size: 1.5em; margin-top: 15px; }
             .face h4 { font-size: 1.1em; }
@@ -414,12 +431,9 @@
                 faces.forEach(face => face.classList.remove('active-face'));
 
                 // Calculate the index of the face that is currently "front-facing"
-                // The index is derived from the rotation value, normalized to be between 0 and 3.
-                // Rounding is important to handle potential floating point inaccuracies.
                 const faceIndex = getPositiveModulo(Math.round(currentRotation / -90), 4);
                 
                 // The faces in the HTML are ordered: front (index 0), right (1), back (2), left (3).
-                // This logic directly corresponds to that order.
                 const activeFaceElement = faces[faceIndex];
 
                 if (activeFaceElement) {
@@ -428,7 +442,12 @@
             };
             
             const updateCubeRotation = () => {
-                cube.style.transform = `translateZ(-250px) rotateY(${currentRotation}deg)`;
+                // Determine the correct translateZ value based on screen size for responsiveness
+                const translateZValue = window.innerWidth <= 768 ? '-40vw' : '-250px';
+                
+                // Set the transform property with the dynamic translateZ value
+                cube.style.transform = `translateZ(${translateZValue}) rotateY(${currentRotation}deg)`;
+                
                 updateActiveFace();
             };
 
@@ -443,8 +462,8 @@
                 updateCubeRotation();
             });
             
-            // Initial view
-            updateActiveFace();
+            // Initial view and update on window resize
+            window.addEventListener('resize', updateCubeRotation);
             updateCubeRotation();
         });
     </script>
